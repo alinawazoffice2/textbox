@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="draw.js"></script>
+	</head>
+	<body>
+		<div id="screen" style="width: 200px; height: 100px;">
+
+		</div>
+		<p id="stats"></p>
+		<button id="test">Test</button>
+		<script>
+			var d = new draw();
+			var screen_color = 'black';
+			var animation = false;
+			var aniX = 0;
+			var aniY = 0;
+			var adderX = 1;
+			var adderY = 1;
+			$(document).ready(function(){	
+				d.init(screen_color);
+				// action
+				$("#test").click(function(){					
+					animation = !animation;
+				});
+				d.rect('a', aniX, aniX, 20+aniX, 20+aniY, 'yellow');
+				d.rect('b', aniX+20, aniX+20, 20+aniX, 20+aniY, 'red');
+				d.rect('c', aniX+40, aniX+40, 20+aniX, 20+aniY, 'green');
+				// animation without GL
+				setInterval(function(){
+					if(animation){
+						d.flush(screen_color);						
+						aniX+=adderX;
+						aniY+=adderY;
+						if(aniY>6){ 
+							adderY = -1;
+						}
+						if(aniX>6){
+							adderX = -1;
+						}
+						if(aniX<1){
+							adderX = 1;
+						}
+						if(aniY<1){
+							adderY = 1;
+						}
+						//if(aniY>30) aniY=10;
+						$('#stats').html('FPS: 1 | X=' + aniX + ' | Y=' + aniY);
+						//d.rectTranslate('a', aniX, aniY, 'yellow');
+						d.rectTranslate('a', aniX, aniY, 'yellow');
+						d.rectTranslate('b', aniX, aniY, 'red');
+						d.rectTranslate('c', aniX, aniY, 'green');
+					}
+				}, 1);
+			});
+		</script>
+	</body>
+</html>
